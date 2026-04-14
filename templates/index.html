@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Manager</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app-shell">
+    <header class="site-header">
+        <div>
+            <h1>Student Management Dashboard</h1>
+        </div>
+        <button id="show-all-btn" type="button" class="btn btn-primary">Show All Students</button>
+    </header>
+
+    <section class="card form-card">
+        <h2>{% if edit_student %}Edit Student{% else %}Add Student{% endif %}</h2>
+        <form action="{% if edit_student %}/students/edit/{{ edit_student.id }}{% else %}/students/form{% endif %}" method="post" class="student-form">
+    <input type="text" name="name" placeholder="Name" value="{% if edit_student %}{{ edit_student.name }}{% endif %}" required>
+    <input type="number" name="age" placeholder="Age" value="{% if edit_student %}{{ edit_student.age }}{% endif %}" required>
+    <input type="text" name="department" placeholder="Department" value="{% if edit_student %}{{ edit_student.department }}{% endif %}" required>
+    <input type="number" step="0.01" name="marks" placeholder="Marks" value="{% if edit_student %}{{ edit_student.marks }}{% endif %}" required>
+    <button type="submit" class="btn btn-primary">{% if edit_student %}Update Student{% else %}Add Student{% endif %}</button>
+    {% if edit_student %}
+    <a href="/" class="button-link">Cancel</a>
+    {% endif %}
+</form>
+</section>
+
+<section class="card table-card">
+    <h2>Student Records</h2>
+    <table id="students-table" class="students-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Department</th>
+            <th>Marks</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="students-body">
+        {% for s in students %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.age }}</td>
+            <td>{{ s.department }}</td>
+            <td>{{ s.marks }}</td>
+            <td>
+                <a href="/edit/{{ s.id }}">Edit</a> |
+                <a href="/delete/{{ s.id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</section>
+
+<div class="chat-widget">
+    <button id="chat-widget-toggle" class="chat-widget-toggle" aria-label="Open chat">
+        <span class="chat-widget-icon">💬</span>
+        <span class="chat-widget-status">Chat</span>
+    </button>
+
+    <div id="chat-panel" class="chat-panel hidden">
+        <div class="chat-panel-header">
+            <div>
+                <p class="eyebrow">AI Chatbot</p>
+                <h2>Ask the student bot</h2>
+            </div>
+        </div>
+        <div id="chat-box" class="chat-box"></div>
+        <div id="chat-error" class="chat-error"></div>
+        <div class="chat-input-row">
+            <input type="text" id="msg" placeholder="Ask something about students..." class="text-field" />
+            <button id="chat-send-btn" type="button" class="btn btn-primary">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
