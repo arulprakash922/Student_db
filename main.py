@@ -18,7 +18,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ==============================
 # DATABASE CONFIG
 # ==============================
-DATABASE_URL = "mysql+pymysql://root:1984@localhost/bookstore"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
