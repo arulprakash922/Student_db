@@ -238,3 +238,7 @@ def chat_mini(request: ChatRequest, db: Session = Depends(get_db)):
         return {"response": answer_from_student_table(request.message, students)}
     except Exception:
         return {"response": answer_from_student_table(request.message, students)}
+
+
+from mangum import Mangum
+handler = Mangum(app)
